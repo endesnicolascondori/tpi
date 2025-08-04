@@ -455,7 +455,7 @@
                         <div class="card-body">
                             <div class="photo-section">
                                 <div class="photo">
-                                    <img src="/usuarios/${person.dni}.jpeg" onerror="this.onerror=null; this.src='/usuarios/${person.dni}.jpg';" alt="Foto ${person.nombre}">
+                                    <img src="/tpi/usuarios/${person.dni}.jpeg" onerror="this.onerror=null; this.src='/tpi/usuarios/${person.dni}.jpg';" alt="Foto ${person.nombre}">
                                 </div>
                             </div>
                             <div class="details">
@@ -480,7 +480,7 @@
                 // Generar código QR después de insertar el HTML
                 setTimeout(() => {
                     new QRCode(document.getElementById(`qrcode-${person.dni}`), {
-                        text: `/usuario.html?dni=${person.dni}`,
+                        text: `/tpi/usuario.html?dni=${person.dni}`,
                         width: 80,
                         height: 80,
                         colorDark: "#412faf",
