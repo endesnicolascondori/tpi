@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuestador ENDES - Ficha</title>
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0077b6;
+            --secondary-color: #00b4d8;
+            --accent-color: #ec407a;
+            --light-color: #e9f5f9;
+            --dark-color: #023e8a;
+            --text-color: #333;
+            --light-text: #666;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: var(--text-color);
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .profile-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .profile-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: white;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+        
+        .profile-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.6rem;
+            margin: 0 0 10px 0;
+        }
+        
+        .profile-subtitle {
+            font-weight: 400;
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .profile-body {
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .profile-photo {
+            flex: 0 0 200px;
+        }
+        
+        .profile-photo img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-info {
+            flex: 1;
+            /* min-width: 300px; */
+        }
+        
+        .info-group {
+            margin-bottom: 25px;
+        }
+        
+        .info-group h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin: 0 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        
+        .info-label {
+            font-weight: 500;
+            width: 140px;
+            color: var(--light-text);
+        }
+        
+        .info-value {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .survey-info {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .survey-info h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .survey-info p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0, 119, 182, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 119, 182, 0.4);
+        }
+        
+        .verify-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .verify-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .verify-badge svg {
+            margin-right: 10px;
+        }
+        
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+        
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-body {
+                flex-direction: column;
+            }
+            
+            .profile-photo {
+                flex: 0 0 100%;
+                max-width: 180px;
+                margin: 0 auto;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                margin-bottom: 15px;
+            }
+            
+            .info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Encuesta de Transferencia a Primera Infancia en Zonas Urbanas (TPI)</h1>
+    </header>
+    
+    <div class="container">
+        <div id="profile-container">
+            <!-- El contenido del perfil se cargará dinámicamente -->
+        </div>
+<!--         
+        <div class="survey-info">
+            <h3>Sobre TPI</h3>
+            <p>La Encuesta Demográfica y de Salud Familiar (ENDES) proporciona datos sobre la salud materna e infantil, así como sobre indicadores clave para programas como Nutrición, Salud Materna y Acceso a la identidad.</p>
+            <p>Es una fuente reconocida a nivel nacional e internacional que permite estudios de anemia, fecundidad, y enfermedades transmisibles.</p>
+            <p>Previo a las entrevistas, se realiza una actualización cartográfica y registro de viviendas para asegurar la validez de la información recolectada.</p>
+        </div> -->
+        
+        <div class="verify-section">
+            <div class="verify-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                Personal Verificado
+            </div>
+            <p>Este personal ha sido acreditado oficialmente para realizar la Encuesta de Transferencia a Primera Infancia en Zonas Urbanas.</p>
+            <p>Si tiene dudas sobre la identidad del encuestador, puede contactar a la oficina ODEI de su región.</p>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>Instituto Nacional de Estadística e Informática</p>
+        <p>Encuesta de Transferencia a Primera Infancia en Zonas Urbanas - 2025</p>
+        <p><a href="https://www.inei.gob.pe" target="_blank">www.inei.gob.pe</a></p>
+    </footer>
+    
+    <script>
+        // Función para obtener parámetros de la URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        
+        // Base de datos de encuestadores (en una aplicación real, esto se obtendría de un servidor)
+        const encuestadoresDB = [
+            { "num": 1, "odei": "LIMA", "nombre": "PORRAS ARHUATA MADELEINE LIZBETH", "dni": "72613205", "cargo": "ANTROPOMETRISTA" },
+            { "num": 2, "odei": "LIMA", "nombre": "PARODI MARQUEZ MILUSCA CINTHYA", "dni": "43274505", "cargo": "ANTROPOMETRISTA" },
+            { "num": 3, "odei": "LIMA", "nombre": "CHAVEZ PADILLA GABRIELA ANTAMY", "dni": "71642458", "cargo": "ANTROPOMETRISTA" },
+            { "num": 4, "odei": "LIMA", "nombre": "GARCIA ESTEVES TENNY LUCYSMA", "dni": "47994024", "cargo": "ANTROPOMETRISTA" },
+            { "num": 5, "odei": "LIMA", "nombre": "BANDA FLORENCIO ALLISON FIORELLA", "dni": "71332012", "cargo": "ANTROPOMETRISTA" },
+            { "num": 6, "odei": "LIMA", "nombre": "ANDRADE FRANCO JACKELINE SILVIA", "dni": "42949818", "cargo": "ANTROPOMETRISTA" },
+            { "num": 7, "odei": "LIMA", "nombre": "VARGAS VILA FIORELLA MITSUO", "dni": "72746812", "cargo": "ANTROPOMETRISTA" },
+            { "num": 8, "odei": "LIMA", "nombre": "CARPIO VEGA LESLIE MADELYN", "dni": "74954784", "cargo": "ANTROPOMETRISTA" },
+            { "num": 9, "odei": "LIMA", "nombre": "MEJIA CAPA KATHERINE ROSMERY", "dni": "70873067", "cargo": "ANTROPOMETRISTA" },
+            { "num": 10, "odei": "LIMA", "nombre": "PALOMINO MANCILLA THALIA DIANA", "dni": "74875363", "cargo": "ANTROPOMETRISTA" },
+            { "num": 11, "odei": "LIMA", "nombre": "PAUCAR BRIONES ROSA DEL CARMEN", "dni": "72540406", "cargo": "ANTROPOMETRISTA" },
+            { "num": 12, "odei": "LIMA", "nombre": "PRUDENCIO ACOSTA JESICA YANINA", "dni": "41556229", "cargo": "ANTROPOMETRISTA" },
+            { "num": 13, "odei": "LIMA", "nombre": "CANALES PARIONA MAYRA LIZETH", "dni": "73601421", "cargo": "ANTROPOMETRISTA" },
+            { "num": 14, "odei": "LIMA", "nombre": "PIÑIN ROBLEDO YESSICA MARIELA", "dni": "77486950", "cargo": "ANTROPOMETRISTA" },
+            { "num": 15, "odei": "LIMA", "nombre": "MARCHAN TANDAZO KIARI GISEL", "dni": "76766189", "cargo": "ANTROPOMETRISTA" },
+            { "num": 16, "odei": "LIMA", "nombre": "HUACCHILLO RIOS ANA RUTH", "dni": "72329779", "cargo": "ANTROPOMETRISTA" },
+            { "num": 17, "odei": "LIMA", "nombre": "RUIZ SILVA KATHERIN LETICIA", "dni": "71050229", "cargo": "ANTROPOMETRISTA" },
+            { "num": 18, "odei": "LIMA", "nombre": "RIOS PANDURO DELSY", "dni": "44937860", "cargo": "ANTROPOMETRISTA" },
+            { "num": 19, "odei": "LIMA", "nombre": "CAREY GUTIERREZ JOHANNY", "dni": "48867115", "cargo": "ANTROPOMETRISTA" },
+            { "num": 20, "odei": "LIMA", "nombre": "BENAVIDES GONZALES MILAGRITOS TATIANA", "dni": "77500844", "cargo": "ANTROPOMETRISTA" },
+            { "num": 21, "odei": "LIMA", "nombre": "CCALLO CHULLA MERCEDES", "dni": "40750466", "cargo": "ANTROPOMETRISTA" },
+            { "num": 22, "odei": "LIMA", "nombre": "LOVON LUQUE GIANNINA EUDIECINE", "dni": "43123583", "cargo": "ANTROPOMETRISTA" },
+            { "num": 23, "odei": "LIMA", "nombre": "CORTEZ PEÑA CINTHIA VANESSA", "dni": "44882639", "cargo": "ANTROPOMETRISTA" },
+            { "num": 24, "odei": "LIMA", "nombre": "TURPO PANCCA MARIBEL", "dni": "70002894", "cargo": "ANTROPOMETRISTA" },
+            { "num": 25, "odei": "LIMA", "nombre": "ZORRILLA BARRETO CELESTE", "dni": "71243522", "cargo": "ANTROPOMETRISTA" },
+            { "num": 26, "odei": "LIMA", "nombre": "COLLANTES RAMÍREZ LUCIA SHARIT", "dni": "71860189", "cargo": "ANTROPOMETRISTA" }
+        ];
+        
+        // Función para obtener encuestador por DNI
+        function getEncuestadorByDNI(dni) {
+            return encuestadoresDB.find(e => e.dni === dni) || null;
+        }
+        
+        // Función para formatear fecha actual
+        function getCurrentDate() {
+            const date = new Date();
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+        
+        // Función para obtener fecha de expiración (1 año después)
+        function getExpiryDate() {
+            const date = new Date();
+            date.setFullYear(date.getFullYear() + 1);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+        
+        // Cargar el perfil del encuestador
+        function loadProfile() {
+            // Extraer el DNI de la URL (por ejemplo, usuario.html?dni=71806726)
+            const dni = getUrlParameter('dni');
+            
+            if (!dni) {
+                document.getElementById('profile-container').innerHTML = `
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <h2 class="profile-title">Error</h2>
+                            <p class="profile-subtitle">No se proporcionó un DNI válido.</p>
+                        </div>
+                        <div class="profile-body">
+                            <p>Por favor, escanee el código QR correcto o verifique la URL.</p>
+                            <a href="index.html" class="button">Volver al inicio</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Buscar encuestador por DNI
+            const encuestador = getEncuestadorByDNI(dni);
+            
+            if (!encuestador) {
+                document.getElementById('profile-container').innerHTML = `
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <h2 class="profile-title">Encuestador no encontrado</h2>
+                            <p class="profile-subtitle">No se encontró información para el DNI: ${dni}</p>
+                        </div>
+                        <div class="profile-body">
+                            <p>El número de DNI proporcionado no corresponde a ningún encuestador registrado.</p>
+                            <a href="index.html" class="button">Volver al inicio</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Fechas
+            const currentDate = getCurrentDate();
+            const expiryDate = getExpiryDate();
+            
+            // Renderizar perfil
+            document.getElementById('profile-container').innerHTML = `
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <h2 class="profile-title">${encuestador.nombre}</h2>
+                        <p class="profile-subtitle">${encuestador.cargo} - ODEI ${encuestador.odei}</p>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-photo">
+                            <img src="/usuarios/${encuestador.dni}.jpg" onerror="this.onerror=null; this.src='/usuarios/${encuestador.dni}.jpg';" alt="Foto de ${encuestador.nombre}">
+                        </div>
+                        <div class="profile-info">
+                            <div class="info-group">
+                                <h3>Información Personal</h3>
+                                <div class="info-row">
+                                    <div class="info-label">Nombre completo:</div>
+                                    <div class="info-value">${encuestador.nombre}</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Cargo:</div>
+                                    <div class="info-value">${encuestador.cargo}</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">DNI:</div>
+                                    <div class="info-value">${encuestador.dni}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <h3>Información Laboral</h3>
+                                <div class="info-row">
+                                    <div class="info-label">Región ODEI:</div>
+                                    <div class="info-value">${encuestador.odei}</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Estado:</div>
+                                    <div class="info-value"><span class="badge">Activo</span></div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <h3>Rol en ENDES</h3>
+
+                                <p> ${encuestador.cargo == "INSTRUCTORA"? "Personal encargado de supervisar las entrevistas directas a los hogares seleccionados" : "Personal encargado de realizar mediciones antropométricas a los hogares seleccionados, recopilando información mediante el uso de tablets."}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Cargar perfil cuando se carga la página
+        window.onload = loadProfile;
+    </script>
+</body>
+</html>

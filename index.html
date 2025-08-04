@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas de Identificación - Encuestadoras</title>
+    <!-- Incluir html2canvas para la conversión a PNG -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Incluir qrcode.js para generar códigos QR -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f0f4;
+            /* background-image: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800'); */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .id-card {
+            width: 380px;
+            height: 220px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(234, 76, 137, 0.15);
+            position: relative;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #d03e704f;
+        }
+        
+        .id-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(234, 76, 137, 0.25);
+        }
+        
+        .header {
+            height: 60px;
+            /* background: linear-gradient(135deg, #f06292 0%, #ec407a 50%, #d81b60 100%); */
+            background: linear-gradient(257deg, #3622aacc 0% 0%, #3622aa 50%, #9a31cd 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .logo {
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            text-align: center;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .header-right {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: right;
+            z-index: 1;
+        }
+        
+        .card-body {
+            display: flex;
+            padding: 15px;
+            background-color: white;
+            height: calc(100% - 60px);
+            box-sizing: border-box;
+        }
+        
+        .photo-section {
+            margin-right: 20px;
+        }
+        
+        .photo {
+            width: 100px;
+            height: 120px;
+            border: none;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 0.3px;
+            padding-bottom: 5px;
+        }
+        
+        .posicion {
+            display: flex;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+        
+        .caja1 {
+            flex-grow: 1;
+            padding-right: 15px;
+        }
+        
+        .position {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .region {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* .region::before {
+            content: '•';
+            margin-right: 5px;
+            color: #ec407a;
+        } */
+        
+        .info-row {
+            display: flex;
+            font-size: 13px;
+            margin-bottom: 5px;
+            align-items: center;
+        }
+        
+        .info-label {
+            width: 45px;
+            font-weight: 600;
+            color: #ec407a;
+        }
+        
+        .qr-code {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .controls {
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        button {
+            background: linear-gradient(45deg, #f06292, #ec407a);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(236, 64, 122, 0.3);
+        }
+        
+        button:hover {
+            background: linear-gradient(45deg, #ec407a, #d81b60);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(236, 64, 122, 0.4);
+        }
+        
+        .download-btn {
+            background: linear-gradient(45deg, #f06292, #ec407a);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 5px 15px;
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 20px;
+        }
+        
+        .id-card:hover .download-btn {
+            opacity: 1;
+        }
+        
+        .download-all-btn {
+            background: linear-gradient(45deg, #d81b60, #c2185b);
+            padding: 12px 25px;
+        }
+        
+        #filterControls {
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        
+        label {
+            font-weight: 500;
+            margin-right: 10px;
+            color: #333;
+        }
+        
+        select {
+            padding: 10px 15px;
+            margin-right: 10px;
+            border-radius: 50px;
+            border: 1px solid #ddd;
+            font-family: 'Poppins', sans-serif;
+            background-color: white;
+            color: #333;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus {
+            border-color: #ec407a;
+            box-shadow: 0 0 0 2px rgba(236, 64, 122, 0.2);
+        }
+        
+        .title-bar {
+            background: linear-gradient(135deg, rgba(236, 64, 122, 0.9), rgba(194, 24, 91, 0.9));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .title-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200');
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        h1 {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .id-card {
+                width: 320px;
+            }
+            
+            #filterControls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                margin-bottom: 10px;
+            }
+            
+            .download-all-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title-bar">
+        <h1>Sistema de Tarjetas de Identificación</h1>
+    </div>
+    
+    <div id="filterControls">
+        <div class="filter-group">
+            <label for="regionFilter">Filtrar por ODEI:</label>
+            <select id="regionFilter" onchange="filterCards()">
+                <option value="all">Todas las regiones</option>
+            </select>
+        </div>
+        
+        <button class="download-all-btn" onclick="downloadAllCards()">Descargar Todas las Tarjetas</button>
+    </div>
+    
+    <div class="container" id="cardsContainer">
+        <!-- Las tarjetas se generarán dinámicamente con JavaScript -->
+    </div>
+    
+    <script>
+        // Datos de las encuestadoras
+        const data = [
+            { "num": 1, "odei": "LIMA", "nombre": "PORRAS ARHUATA MADELEINE LIZBETH", "dni": "72613205", "cargo": "ANTROPOMETRISTA" },
+            { "num": 2, "odei": "LIMA", "nombre": "PARODI MARQUEZ MILUSCA CINTHYA", "dni": "43274505", "cargo": "ANTROPOMETRISTA" },
+            { "num": 3, "odei": "LIMA", "nombre": "CHAVEZ PADILLA GABRIELA ANTAMY", "dni": "71642458", "cargo": "ANTROPOMETRISTA" },
+            { "num": 4, "odei": "LIMA", "nombre": "GARCIA ESTEVES TENNY LUCYSMA", "dni": "47994024", "cargo": "ANTROPOMETRISTA" },
+            { "num": 5, "odei": "LIMA", "nombre": "BANDA FLORENCIO ALLISON FIORELLA", "dni": "71332012", "cargo": "ANTROPOMETRISTA" },
+            { "num": 6, "odei": "LIMA", "nombre": "ANDRADE FRANCO JACKELINE SILVIA", "dni": "42949818", "cargo": "ANTROPOMETRISTA" },
+            { "num": 7, "odei": "LIMA", "nombre": "VARGAS VILA FIORELLA MITSUO", "dni": "72746812", "cargo": "ANTROPOMETRISTA" },
+            { "num": 8, "odei": "LIMA", "nombre": "CARPIO VEGA LESLIE MADELYN", "dni": "74954784", "cargo": "ANTROPOMETRISTA" },
+            { "num": 9, "odei": "LIMA", "nombre": "MEJIA CAPA KATHERINE ROSMERY", "dni": "70873067", "cargo": "ANTROPOMETRISTA" },
+            { "num": 10, "odei": "LIMA", "nombre": "PALOMINO MANCILLA THALIA DIANA", "dni": "74875363", "cargo": "ANTROPOMETRISTA" },
+            { "num": 11, "odei": "LIMA", "nombre": "PAUCAR BRIONES ROSA DEL CARMEN", "dni": "72540406", "cargo": "ANTROPOMETRISTA" },
+            { "num": 12, "odei": "LIMA", "nombre": "PRUDENCIO ACOSTA JESICA YANINA", "dni": "41556229", "cargo": "ANTROPOMETRISTA" },
+            { "num": 13, "odei": "LIMA", "nombre": "CANALES PARIONA MAYRA LIZETH", "dni": "73601421", "cargo": "ANTROPOMETRISTA" },
+            { "num": 14, "odei": "LIMA", "nombre": "PIÑIN ROBLEDO YESSICA MARIELA", "dni": "77486950", "cargo": "ANTROPOMETRISTA" },
+            { "num": 15, "odei": "LIMA", "nombre": "MARCHAN TANDAZO KIARI GISEL", "dni": "76766189", "cargo": "ANTROPOMETRISTA" },
+            { "num": 16, "odei": "LIMA", "nombre": "HUACCHILLO RIOS ANA RUTH", "dni": "72329779", "cargo": "ANTROPOMETRISTA" },
+            { "num": 17, "odei": "LIMA", "nombre": "RUIZ SILVA KATHERIN LETICIA", "dni": "71050229", "cargo": "ANTROPOMETRISTA" },
+            { "num": 18, "odei": "LIMA", "nombre": "RIOS PANDURO DELSY", "dni": "44937860", "cargo": "ANTROPOMETRISTA" },
+            { "num": 19, "odei": "LIMA", "nombre": "CAREY GUTIERREZ JOHANNY", "dni": "48867115", "cargo": "ANTROPOMETRISTA" },
+            { "num": 20, "odei": "LIMA", "nombre": "BENAVIDES GONZALES MILAGRITOS TATIANA", "dni": "77500844", "cargo": "ANTROPOMETRISTA" },
+            { "num": 21, "odei": "LIMA", "nombre": "CCALLO CHULLA MERCEDES", "dni": "40750466", "cargo": "ANTROPOMETRISTA" },
+            { "num": 22, "odei": "LIMA", "nombre": "LOVON LUQUE GIANNINA EUDIECINE", "dni": "43123583", "cargo": "ANTROPOMETRISTA" },
+            { "num": 23, "odei": "LIMA", "nombre": "CORTEZ PEÑA CINTHIA VANESSA", "dni": "44882639", "cargo": "ANTROPOMETRISTA" },
+            { "num": 24, "odei": "LIMA", "nombre": "TURPO PANCCA MARIBEL", "dni": "70002894", "cargo": "ANTROPOMETRISTA" },
+            { "num": 25, "odei": "LIMA", "nombre": "ZORRILLA BARRETO CELESTE", "dni": "71243522", "cargo": "ANTROPOMETRISTA" },
+            { "num": 26, "odei": "LIMA", "nombre": "COLLANTES RAMÍREZ LUCIA SHARIT", "dni": "71860189", "cargo": "ANTROPOMETRISTA" }
+        ];
+        
+        // Función para formatear fecha actual
+        function getCurrentDate() {
+            const date = new Date();
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+        
+        // Función para obtener fecha de expiración (1 año después)
+        function getExpiryDate() {
+            const date = new Date();
+            date.setFullYear(date.getFullYear() + 1);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+        
+        // Poblar el filtro de regiones
+        function populateRegionFilter() {
+            const regions = [...new Set(data.map(item => item.odei))];
+            const filterSelect = document.getElementById('regionFilter');
+            
+            regions.forEach(region => {
+                const option = document.createElement('option');
+                option.value = region;
+                option.textContent = region;
+                filterSelect.appendChild(option);
+            });
+        }
+        
+        // Crear todas las tarjetas
+        function createAllCards() {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = ''; // Limpiar el contenedor
+            
+            const currentDate = getCurrentDate();
+            const expiryDate = getExpiryDate();
+            
+            data.forEach(person => {
+                const cardId = `card-${person.dni}`;
+                
+                const cardHtml = `
+                    <div class="id-card" id="${cardId}" data-region="${person.odei}">
+                        <div class="header">
+                            <div class="logo">
+                                Esquemas Alternativos de Transferencia a Primera Infancia en Zonas Urbanas
+                            </div>
+                            
+                        </div>
+                        <div class="card-body">
+                            <div class="photo-section">
+                                <div class="photo">
+                                    <img src="/usuarios/${person.dni}.jpeg" onerror="this.onerror=null; this.src='/usuarios/${person.dni}.jpg';" alt="Foto ${person.nombre}">
+                                </div>
+                            </div>
+                            <div class="details">
+                                <div class="name">${person.nombre}</div>
+                                <div class="posicion">
+                                    <div class="caja1">
+                                        <div class="position">${person.cargo}</div>
+                                        <div class="info-row">
+                                            <div>${person.dni}</div>
+                                        </div>
+                                    </div>
+                                    <div class="qr-code" id="qrcode-${person.dni}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="download-btn" onclick="downloadCard('${cardId}')">Descargar</button>
+                    </div>
+                `;
+                
+                container.insertAdjacentHTML('beforeend', cardHtml);
+                
+                // Generar código QR después de insertar el HTML
+                setTimeout(() => {
+                    new QRCode(document.getElementById(`qrcode-${person.dni}`), {
+                        text: `/usuario.html?dni=${person.dni}`,
+                        width: 80,
+                        height: 80,
+                        colorDark: "#412faf",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                }, 100);
+            });
+        }
+        
+        // Filtrar tarjetas por región
+        function filterCards() {
+            const selectedRegion = document.getElementById('regionFilter').value;
+            const cards = document.querySelectorAll('.id-card');
+            
+            cards.forEach(card => {
+                if (selectedRegion === 'all' || card.getAttribute('data-region') === selectedRegion) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Función para descargar una tarjeta específica como PNG
+        function downloadCard(cardId) {
+            const card = document.getElementById(cardId);
+            
+            // Ocultar temporalmente el botón de descarga para la captura
+            const downloadBtn = card.querySelector('.download-btn');
+            downloadBtn.style.display = 'none';
+            
+            html2canvas(card).then(canvas => {
+                // Mostrar nuevamente el botón
+                downloadBtn.style.display = 'block';
+                
+                // Obtener el nombre desde la tarjeta
+                const nameElement = card.querySelector('.name');
+                const fileName = nameElement ? nameElement.textContent.replace(/\s+/g, '_') : 'id_card';
+                
+                // Crear enlace de descarga
+                const link = document.createElement('a');
+                link.download = `${fileName}_ID_Card.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+        
+        // Función para descargar todas las tarjetas como PNG
+        function downloadAllCards() {
+            const selectedRegion = document.getElementById('regionFilter').value;
+            const cards = document.querySelectorAll('.id-card');
+            
+            // Filtrar tarjetas visibles según la región seleccionada
+            const visibleCards = [...cards].filter(card => {
+                return selectedRegion === 'all' || card.getAttribute('data-region') === selectedRegion;
+            });
+            
+            // Ocultar temporalmente todos los botones de descarga
+            const downloadBtns = document.querySelectorAll('.download-btn');
+            downloadBtns.forEach(btn => btn.style.display = 'none');
+            
+            let processedCards = 0;
+            
+            visibleCards.forEach((card, index) => {
+                setTimeout(() => {
+                    html2canvas(card).then(canvas => {
+                        // Obtener el nombre desde la tarjeta
+                        const nameElement = card.querySelector('.name');
+                        const fileName = nameElement ? nameElement.textContent.replace(/\s+/g, '_') : `id_card_${index + 1}`;
+                        
+                        // Crear enlace de descarga
+                        const link = document.createElement('a');
+                        link.download = `${fileName}_ID_Card.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                        
+                        processedCards++;
+                        
+                        // Mostrar nuevamente los botones cuando todas las tarjetas hayan sido procesadas
+                        if (processedCards === visibleCards.length) {
+                            downloadBtns.forEach(btn => btn.style.display = 'block');
+                        }
+                    });
+                }, index * 500); // Retraso escalonado para evitar problemas con múltiples descargas
+            });
+        }
+        
+        // Inicializar la página
+        window.onload = function() {
+            populateRegionFilter();
+            createAllCards();
+        };
+    </script>
+</body>
+</html>
