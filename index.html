@@ -480,7 +480,7 @@
                 // Generar código QR después de insertar el HTML
                 setTimeout(() => {
                     new QRCode(document.getElementById(`qrcode-${person.dni}`), {
-                        text: `/tpi/usuario.html?dni=${person.dni}`,
+                        text: `https://endesnicolascondori.github.io/tpi/usuario.html?dni=${person.dni}`,
                         width: 80,
                         height: 80,
                         colorDark: "#412faf",
